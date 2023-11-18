@@ -1,12 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
 import { HiTicket } from 'react-icons/hi2'
 import { usePathname } from 'next/navigation'
 import classNames from 'classnames'
 
-const NavBar = () => {
+export default function NavBar() {
   const path = usePathname();
 
   const links = [
@@ -30,5 +29,3 @@ const NavBar = () => {
     </nav>
   )
 }
-
-export default NavBar;

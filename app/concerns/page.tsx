@@ -1,9 +1,5 @@
-import React from 'react'
+import { Button } from "@radix-ui/themes"
 
-const Concerns = () => {
-  return (
-    <div>Concern hehe</div>
-  )
+export default function Concerns() {
+  return <div><Button>Submit Concern</Button></div>
 }
-
-export default Concerns;
