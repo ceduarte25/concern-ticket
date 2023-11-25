@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createConcernSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type ConcernForm = z.infer<typeof createConcernSchema>;
 
@@ -19,6 +20,7 @@ export default function NewConcern() {
     resolver: zodResolver(createConcernSchema)
   });
   const [error, setError] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   return (
     <div className='max-w-xl'>
@@ -29,9 +31,11 @@ export default function NewConcern() {
         className='space-y-3'
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmitting(true);
             await axios.post('/api/concerns', data);
             router.push('/concerns');
           } catch (error) {
+            setSubmitting(false);
             setError('An unexpected error occurred.');
           }
         })}>
@@ -45,7 +49,7 @@ export default function NewConcern() {
           render={({ field }) => <SimpleMDE placeholder='Description' {...field} />}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Concern</Button>
+        <Button disabled={isSubmitting}>Submit New Concern {isSubmitting && <Spinner />}</Button>
       </form>
     </div>
   )
