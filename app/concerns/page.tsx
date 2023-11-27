@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import ConcernStatusBadge from "../components/ConcernStatusBadge";
 import ConcernsAction from "./ConcernsAction";
+import Link from "next/link";
 
 export default async function Concerns() {
   const concerns = await prisma.concern.findMany();
@@ -21,7 +22,9 @@ export default async function Concerns() {
           {concerns.map(concern => (
             <Table.Row key={concern.id}>
               <Table.Cell>
-                {concern.title}
+                <Link href={`concerns/${concern.id}`}>
+                  {concern.title}
+                </Link>
                 <div className='block md:hidden'>
                   <ConcernStatusBadge status={concern.status} />
                 </div>
