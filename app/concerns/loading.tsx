@@ -1,10 +1,10 @@
-import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
-import ConcernStatusBadge from "../components/ConcernStatusBadge";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 import ConcernsAction from "./ConcernsAction";
 
-export default async function Concerns() {
-  const concerns = await prisma.concern.findMany();
+export default function ConcernsLoading() {
+  const concerns = [1, 2, 3, 4, 5];
 
   return (
     <div>
@@ -19,17 +19,17 @@ export default async function Concerns() {
         </Table.Header>
         <Table.Body>
           {concerns.map(concern => (
-            <Table.Row key={concern.id}>
+            <Table.Row key={concern}>
               <Table.Cell>
-                {concern.title}
+                <Skeleton />
                 <div className='block md:hidden'>
-                  <ConcernStatusBadge status={concern.status} />
+                  <Skeleton />
                 </div>
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
-                <ConcernStatusBadge status={concern.status} />
+                <Skeleton />
               </Table.Cell>
-              <Table.Cell className='hidden md:table-cell'>{concern.createdAt.toDateString()}</Table.Cell>
+              <Table.Cell className='hidden md:table-cell'><Skeleton /></Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
