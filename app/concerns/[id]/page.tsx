@@ -1,5 +1,5 @@
 import ConcernStatusBadge from "@/app/components/ConcernStatusBadge";
-import prisma from "@/prisma/client"
+import prisma from "@/prisma/client";
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
