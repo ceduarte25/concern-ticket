@@ -1,4 +1,4 @@
-import ConcernStatusBadge from "@/app/components/ConcernStatusBadge";
+import { ConcernStatusBadge } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
