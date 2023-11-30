@@ -1,8 +1,7 @@
+import { ConcernStatusBadge, Link } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
-import ConcernStatusBadge from "../components/ConcernStatusBadge";
 import ConcernsAction from "./ConcernsAction";
-import Link from '../components/Link'
 
 export default async function Concerns() {
   const concerns = await prisma.concern.findMany();
