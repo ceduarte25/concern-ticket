@@ -1,6 +1,16 @@
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-import ConcernForm from "../../_components/ConcernForm";
+import dynamic from "next/dynamic";
+import ConcernFormSkeleton from "../../_components/ConcernFormSkeleton";
+
+const ConcernForm = dynamic(
+  () => import('../../_components/ConcernForm'),
+  {
+    ssr: false,
+    loading: () => <ConcernFormSkeleton />
+  }
+
+)
 
 interface Props {
   params: { id: string }
