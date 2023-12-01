@@ -1,7 +1,7 @@
 'use client'
 
 import { ErrorMessage, Spinner } from '@/app/components';
-import { createConcernSchema } from "@/app/validationSchemas";
+import { concernSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Concern } from '@prisma/client';
 import { Button, Callout, TextField } from "@radix-ui/themes";
@@ -18,12 +18,12 @@ const SimpleMDE = dynamic(
   { ssr: false }
 )
 
-type ConcernFormData = z.infer<typeof createConcernSchema>;
+type ConcernFormData = z.infer<typeof concernSchema>;
 
 export default function ConcernForm({ concern }: { concern?: Concern }) {
   const router = useRouter();
   const { register, control, handleSubmit, formState: { errors } } = useForm<ConcernFormData>({
-    resolver: zodResolver(createConcernSchema)
+    resolver: zodResolver(concernSchema)
   });
   const [error, setError] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
