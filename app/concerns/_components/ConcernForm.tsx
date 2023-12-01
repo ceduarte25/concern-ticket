@@ -30,11 +30,14 @@ export default function ConcernForm({ concern }: { concern?: Concern }) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
+
       if (concern)
         await axios.patch(`/api/concerns/${concern.id}`, data)
       else
         await axios.post('/api/concerns', data);
+
       router.push('/concerns');
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError('An unexpected error occurred.');
