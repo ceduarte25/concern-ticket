@@ -39,3 +39,5 @@ export default async function Concerns() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
