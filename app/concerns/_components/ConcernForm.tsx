@@ -30,7 +30,10 @@ export default function ConcernForm({ concern }: { concern?: Concern }) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post('/api/concerns', data);
+      if (concern)
+        await axios.patch(`/api/concerns/${concern.id}`, data)
+      else
+        await axios.post('/api/concerns', data);
       router.push('/concerns');
     } catch (error) {
       setSubmitting(false);
@@ -57,7 +60,9 @@ export default function ConcernForm({ concern }: { concern?: Concern }) {
           render={({ field }) => <SimpleMDE placeholder='Description' {...field} />}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={isSubmitting}>Submit New Concern {isSubmitting && <Spinner />}</Button>
+        <Button disabled={isSubmitting}>
+          {concern ? 'Update Concern' : 'Submit New Concern'}{' '}{isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   )
