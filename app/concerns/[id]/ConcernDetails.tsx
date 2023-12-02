@@ -11,7 +11,7 @@ export default function ConcernDetails({ concern }: { concern: Concern }) {
         <ConcernStatusBadge status={concern.status} />
         <p>{concern.createdAt.toDateString()}</p>
       </Flex>
-      <Card className='prose' mt='4'>
+      <Card className='prose max-w-full' mt='4'>
         <ReactMarkdown>{concern.description}</ReactMarkdown>
       </Card>
     </>
