@@ -4,9 +4,11 @@ import Link from "next/link";
 
 export default function EditConcernButton({ concernId }: { concernId: number }) {
   return (
-    <Button>
-      <Link href={`/concerns/${concernId}/edit`}><Pencil2Icon /></Link>
-      <Link href={`/concerns/${concernId}/edit`}>Edit Button</Link>
+    <Button asChild>
+      <Link href={`/concerns/${concernId}/edit`}>
+        <Pencil2Icon />
+        Edit Button
+      </Link>
     </Button>
   )
 }
