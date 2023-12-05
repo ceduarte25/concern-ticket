@@ -26,3 +26,18 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
   return NextResponse.json(editConcern)
 }
+
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const concern = await prisma.concern.findUnique({
+    where: { id: parseInt(params.id) }
+  })
+
+  if (!concern)
+    return NextResponse.json({ error: 'Invalid concern' }, { status: 404 })
+
+  await prisma.concern.delete({
+    where: { id: concern.id }
+  })
+
+  return NextResponse.json({})
+}
