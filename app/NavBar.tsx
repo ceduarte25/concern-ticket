@@ -39,7 +39,7 @@ export default function NavBar() {
             {status === 'authenticated' &&
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger className='cursor-pointer'>
-                  <Avatar src={session.user!.image!} fallback='?' size='2' radius='full' />
+                  <Avatar src={session.user!.image!} fallback='?' size='2' radius='full' referrerPolicy='no-referrer' />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Label>
