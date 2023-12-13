@@ -1,15 +1,19 @@
+import authOptions from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import ConcernDetails from "./ConcernDetails";
-import EditConcernButton from "./EditConcernButton";
 import DeleteConcernButton from "./DeleteConcernButton";
+import EditConcernButton from "./EditConcernButton";
 
 interface Props {
   params: { id: string }
 };
 
 export default async function ConcernDetailsPage({ params }: Props) {
+  const session = await getServerSession(authOptions)
+
   const concern = await prisma.concern.findUnique({
     where: { id: parseInt(params.id) }
   });
@@ -21,12 +25,14 @@ export default async function ConcernDetailsPage({ params }: Props) {
       <Box className='md:col-span-4'>
         <ConcernDetails concern={concern} />
       </Box>
-      <Box>
-        <Flex direction='column' gap='2'>
-          <EditConcernButton concernId={concern.id} />
-          <DeleteConcernButton concernId={concern.id} />
-        </Flex>
-      </Box>
+      {session &&
+        <Box>
+          <Flex direction='column' gap='2'>
+            <EditConcernButton concernId={concern.id} />
+            <DeleteConcernButton concernId={concern.id} />
+          </Flex>
+        </Box>
+      }
     </Grid>
   )
 }
