@@ -1,10 +1,14 @@
-import { Button } from "@radix-ui/themes";
-import Link from "next/link";
+import { Button, Flex } from '@radix-ui/themes'
+import Link from 'next/link'
+import ConcernsStatusFilter from './ConcernsStatusFilter'
 
 export default function ConcernsAction() {
   return (
-    <div className='mb-5'>
-      <Button asChild><Link href='/concerns/new'>New Concern</Link></Button>
-    </div>
+    <Flex mb='5' justify='between'>
+      <ConcernsStatusFilter />
+      <Button asChild>
+        <Link href='/concerns/new'>New Concern</Link>
+      </Button>
+    </Flex>
   )
 }
