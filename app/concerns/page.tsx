@@ -27,10 +27,17 @@ export default async function Concerns({ searchParams }: Props) {
     ? searchParams.status
     : undefined
 
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: 'asc' }
+    : undefined
+
   const concerns = await prisma.concern.findMany({
     where: {
       status,
     },
+    orderBy,
   })
 
   return (
