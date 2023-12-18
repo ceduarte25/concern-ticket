@@ -1,14 +1,27 @@
 import { ConcernStatusBadge, Link } from '@/app/components'
 import prisma from '@/prisma/client'
-import { Status } from '@prisma/client'
+import { Concern, Status } from '@prisma/client'
 import { Table } from '@radix-ui/themes'
+import NextLink from 'next/link'
 import ConcernsAction from './ConcernsAction'
+import { ArrowUpIcon } from '@radix-ui/react-icons'
 
 interface Props {
-  searchParams: { status: Status }
+  searchParams: { status: Status; orderBy: keyof Concern }
 }
 
 export default async function Concerns({ searchParams }: Props) {
+  const columns: { label: string; value: keyof Concern; className?: string }[] =
+    [
+      { label: 'Concern', value: 'title' },
+      { label: 'Status', value: 'status', className: 'hidden md:table-cell' },
+      {
+        label: 'Created',
+        value: 'createdAt',
+        className: 'hidden md:table-cell',
+      },
+    ]
+
   const statuses = Object.values(Status)
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
@@ -26,13 +39,20 @@ export default async function Concerns({ searchParams }: Props) {
       <Table.Root variant='surface'>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Concern</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell key={column.value}>
+                <NextLink
+                  href={{
+                    query: { ...searchParams, orderBy: column.value },
+                  }}
+                >
+                  {column.label}{' '}
+                  {column.value === searchParams.orderBy && (
+                    <ArrowUpIcon className='inline' />
+                  )}
+                </NextLink>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
