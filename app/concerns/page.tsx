@@ -1,13 +1,13 @@
-import { ConcernStatusBadge, Link } from '@/app/components'
+import { ConcernStatusBadge, Link, Pagination } from '@/app/components'
 import prisma from '@/prisma/client'
 import { Concern, Status } from '@prisma/client'
+import { ArrowUpIcon } from '@radix-ui/react-icons'
 import { Table } from '@radix-ui/themes'
 import NextLink from 'next/link'
 import ConcernsAction from './ConcernsAction'
-import { ArrowUpIcon } from '@radix-ui/react-icons'
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Concern }
+  searchParams: { status: Status; orderBy: keyof Concern; page: string }
 }
 
 export default async function Concerns({ searchParams }: Props) {
@@ -27,18 +27,25 @@ export default async function Concerns({ searchParams }: Props) {
     ? searchParams.status
     : undefined
 
+  const where = { status }
+
   const orderBy = columns
     .map((column) => column.value)
     .includes(searchParams.orderBy)
     ? { [searchParams.orderBy]: 'asc' }
     : undefined
 
+  const page = parseInt(searchParams.page) || 1
+  const pageSize = 10
+
   const concerns = await prisma.concern.findMany({
-    where: {
-      status,
-    },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   })
+
+  const concernCount = await prisma.concern.count({ where })
 
   return (
     <div>
@@ -84,6 +91,11 @@ export default async function Concerns({ searchParams }: Props) {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={concernCount}
+        pageSize={pageSize}
+        currentPage={page}
+      />
     </div>
   )
 }
