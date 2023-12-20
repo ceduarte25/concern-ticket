@@ -3,6 +3,7 @@ import prisma from '@/prisma/client'
 import { Status } from '@prisma/client'
 import ConcernsAction from './ConcernsAction'
 import ConcernsTable, { ConcernQuery, columnValues } from './ConcernsTable'
+import { Flex } from '@radix-ui/themes'
 
 interface Props {
   searchParams: ConcernQuery
@@ -33,7 +34,7 @@ export default async function Concerns({ searchParams }: Props) {
   const concernCount = await prisma.concern.count({ where })
 
   return (
-    <div>
+    <Flex direction='column' gap='4'>
       <ConcernsAction />
       <ConcernsTable searchParams={searchParams} concerns={concerns} />
       <Pagination
@@ -41,7 +42,7 @@ export default async function Concerns({ searchParams }: Props) {
         pageSize={pageSize}
         currentPage={page}
       />
-    </div>
+    </Flex>
   )
 }
 
