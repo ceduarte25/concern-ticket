@@ -33,8 +33,8 @@ export default function Pagination({
   }
 
   return (
-    <Flex align='center' gap='2'>
-      <Text>
+    <Flex align='center' justify='center' gap='2'>
+      <Text size={{ initial: '1', xs: '2' }}>
         Page {currentPage} out of {pageCount}
       </Text>
       <Button

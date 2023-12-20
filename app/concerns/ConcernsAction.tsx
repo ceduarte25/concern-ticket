@@ -4,7 +4,7 @@ import ConcernsStatusFilter from './ConcernsStatusFilter'
 
 export default function ConcernsAction() {
   return (
-    <Flex mb='5' justify='between'>
+    <Flex justify='between'>
       <ConcernsStatusFilter />
       <Button asChild>
         <Link href='/concerns/new'>New Concern</Link>
