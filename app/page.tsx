@@ -1,9 +1,5 @@
-import { Pagination } from './components'
+import LatestConcerns from './LatestConcerns'
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string }
-}) {
-  return <div>Hello, World!</div>
+export default function Home() {
+  return <LatestConcerns />
 }
