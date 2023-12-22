@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
-import ConcernsSummary from './ConcernsSummary'
 import LatestConcerns from './LatestConcerns'
+import ConcernsChart from './ConcernsChart'
 
 export default async function Home() {
   const open = await prisma.concern.count({ where: { status: 'OPEN' } })
@@ -9,5 +9,5 @@ export default async function Home() {
     where: { status: 'IN_PROGRESS' },
   })
 
-  return <ConcernsSummary open={open} inProgress={inProgress} closed={closed} />
+  return <ConcernsChart open={open} inProgress={inProgress} closed={closed} />
 }
