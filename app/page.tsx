@@ -1,8 +1,9 @@
 import prisma from '@/prisma/client'
-import LatestConcerns from './LatestConcerns'
-import ConcernsChart from './ConcernsChart'
 import { Flex, Grid } from '@radix-ui/themes'
+import { Metadata } from 'next'
+import ConcernsChart from './ConcernsChart'
 import ConcernsSummary from './ConcernsSummary'
+import LatestConcerns from './LatestConcerns'
 
 export default async function Home() {
   const open = await prisma.concern.count({ where: { status: 'OPEN' } })
@@ -22,4 +23,14 @@ export default async function Home() {
       <LatestConcerns />
     </Grid>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'ConcernTicket - Navigate Your Worries',
+  description:
+    'View a summarized data of all of the current and previous concerns',
+  creator: 'Christian Eduarte',
+  icons: {
+    icon: '/concernTicket.png',
+  },
 }

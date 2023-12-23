@@ -1,9 +1,10 @@
 import { Pagination } from '@/app/components'
 import prisma from '@/prisma/client'
 import { Status } from '@prisma/client'
+import { Flex } from '@radix-ui/themes'
+import { Metadata } from 'next'
 import ConcernsAction from './ConcernsAction'
 import ConcernsTable, { ConcernQuery, columnValues } from './ConcernsTable'
-import { Flex } from '@radix-ui/themes'
 
 interface Props {
   searchParams: ConcernQuery
@@ -47,3 +48,12 @@ export default async function Concerns({ searchParams }: Props) {
 }
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'ConcernTicket - Concern List',
+  description: 'View all the list of concerns',
+  creator: 'Christian Eduarte',
+  icons: {
+    icon: '/concernTicket.png',
+  },
+}

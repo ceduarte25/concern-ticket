@@ -38,3 +38,18 @@ export default async function ConcernDetailsPage({ params }: Props) {
     </Grid>
   )
 }
+
+export async function generateMetadata({ params }: Props) {
+  const concern = await prisma.concern.findUnique({
+    where: { id: parseInt(params.id) },
+  })
+
+  return {
+    title: concern?.title,
+    description: `Details of concern ${concern?.id}`,
+    creator: 'Christian Eduarte',
+    icons: {
+      icon: '/concernTicket.png',
+    },
+  }
+}
