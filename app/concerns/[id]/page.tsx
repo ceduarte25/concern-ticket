@@ -7,17 +7,20 @@ import AssigneeSelect from './AssigneeSelect'
 import ConcernDetails from './ConcernDetails'
 import DeleteConcernButton from './DeleteConcernButton'
 import EditConcernButton from './EditConcernButton'
+import { cache } from 'react'
 
 interface Props {
   params: { id: string }
 }
 
+const fetchConcern = cache((concernId: number) =>
+  prisma.concern.findUnique({ where: { id: concernId } })
+)
+
 export default async function ConcernDetailsPage({ params }: Props) {
   const session = await getServerSession(authOptions)
 
-  const concern = await prisma.concern.findUnique({
-    where: { id: parseInt(params.id) },
-  })
+  const concern = await fetchConcern(parseInt(params.id))
 
   if (!concern) notFound()
 
@@ -40,9 +43,7 @@ export default async function ConcernDetailsPage({ params }: Props) {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const concern = await prisma.concern.findUnique({
-    where: { id: parseInt(params.id) },
-  })
+  const concern = await fetchConcern(parseInt(params.id))
 
   return {
     title: concern?.title,
