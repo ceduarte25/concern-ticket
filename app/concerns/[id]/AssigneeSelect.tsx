@@ -7,7 +7,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function AssigneeSelect({ concern }: { concern: Concern }) {
-  const { data: users, error, isLoading } = fetchUsers()
+  const { data: users, error, isLoading } = useFetchUsers()
 
   if (isLoading) return <Skeleton height='2rem' />
 
@@ -48,7 +48,7 @@ export default function AssigneeSelect({ concern }: { concern: Concern }) {
   )
 }
 
-const fetchUsers = () =>
+const useFetchUsers = () =>
   useQuery<User[]>({
     queryKey: ['users'],
     queryFn: () => axios.get('/api/users').then((res) => res.data),
