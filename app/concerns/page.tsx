@@ -18,9 +18,11 @@ export default async function Concerns({ searchParams }: Props) {
 
   const where = { status }
 
-  const orderBy = columnValues.includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: 'asc' }
-    : undefined
+  const orderBy =
+    columnValues.includes(searchParams.orderBy) &&
+    ['asc', 'desc'].includes(searchParams.orderDirection)
+      ? { [searchParams.orderBy]: searchParams.orderDirection }
+      : undefined
 
   const page = parseInt(searchParams.page) || 1
   const pageSize = 10

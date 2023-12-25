@@ -1,5 +1,5 @@
 import { Concern, Status } from '@prisma/client'
-import { ArrowUpIcon } from '@radix-ui/react-icons'
+import { ArrowDownIcon, ArrowUpIcon } from '@radix-ui/react-icons'
 import { Table } from '@radix-ui/themes'
 import NextLink from 'next/link'
 import { ConcernStatusBadge, Link } from '../components'
@@ -8,6 +8,7 @@ export interface ConcernQuery {
   status: Status
   orderBy: keyof Concern
   page: string
+  orderDirection: 'asc' | 'desc'
 }
 
 interface Props {
@@ -16,6 +17,13 @@ interface Props {
 }
 
 export default function ConcernsTable({ searchParams, concerns }: Props) {
+  const toggleDirection = () =>
+    searchParams.orderDirection === 'asc'
+      ? 'desc'
+      : searchParams.orderDirection === 'desc'
+      ? undefined
+      : 'asc'
+
   return (
     <Table.Root variant='surface'>
       <Table.Header>
@@ -27,13 +35,21 @@ export default function ConcernsTable({ searchParams, concerns }: Props) {
             >
               <NextLink
                 href={{
-                  query: { ...searchParams, orderBy: column.value },
+                  query: {
+                    ...searchParams,
+                    orderBy: column.value,
+                    orderDirection: toggleDirection(),
+                  },
                 }}
               >
                 {column.label}{' '}
-                {column.value === searchParams.orderBy && (
-                  <ArrowUpIcon className='inline' />
-                )}
+                {column.value === searchParams.orderBy &&
+                  searchParams.orderDirection &&
+                  (searchParams.orderDirection === 'asc' ? (
+                    <ArrowUpIcon className='inline' />
+                  ) : (
+                    <ArrowDownIcon className='inline' />
+                  ))}
               </NextLink>
             </Table.ColumnHeaderCell>
           ))}
