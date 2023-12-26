@@ -1,7 +1,7 @@
 'use client'
 
 import { ConcernStatusBadge, ErrorMessage, Spinner } from '@/app/components'
-import { concernSchema } from '@/app/validationSchemas'
+import { concernSchema, patchConcernSchema } from '@/app/validationSchemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Concern, Status } from '@prisma/client'
 import { Button, Callout, Select, TextField } from '@radix-ui/themes'
@@ -13,7 +13,7 @@ import { Controller, useForm } from 'react-hook-form'
 import SimpleMDE from 'react-simplemde-editor'
 import { z } from 'zod'
 
-type ConcernFormData = z.infer<typeof concernSchema>
+type ConcernFormData = z.infer<typeof patchConcernSchema>
 
 const statuses: Status[] = ['OPEN', 'IN_PROGRESS', 'CLOSED']
 
@@ -26,7 +26,7 @@ export default function ConcernForm({ concern }: { concern?: Concern }) {
     handleSubmit,
     formState: { errors },
   } = useForm<ConcernFormData>({
-    resolver: zodResolver(concernSchema),
+    resolver: zodResolver(concern ? patchConcernSchema : concernSchema),
   })
 
   const [error, setError] = useState('')
@@ -64,19 +64,29 @@ export default function ConcernForm({ concern }: { concern?: Concern }) {
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         {concern && (
-          <Select.Root defaultValue={concern.status}>
-            <Select.Trigger />
-            <Select.Content position='popper'>
-              <Select.Group>
-                <Select.Label>Update Concern Status</Select.Label>
-                {statuses.map((status) => (
-                  <Select.Item value={status} key={status}>
-                    <ConcernStatusBadge status={status} />
-                  </Select.Item>
-                ))}
-              </Select.Group>
-            </Select.Content>
-          </Select.Root>
+          <>
+            <Controller
+              name='status'
+              control={control}
+              defaultValue={concern?.status}
+              render={({ field }) => (
+                <Select.Root onValueChange={field.onChange} {...field}>
+                  <Select.Trigger />
+                  <Select.Content position='popper'>
+                    <Select.Group>
+                      <Select.Label>Update Concern Status</Select.Label>
+                      {statuses.map((status) => (
+                        <Select.Item value={status} key={status}>
+                          <ConcernStatusBadge status={status} />
+                        </Select.Item>
+                      ))}
+                    </Select.Group>
+                  </Select.Content>
+                </Select.Root>
+              )}
+            />
+            <ErrorMessage>{errors.status?.message}</ErrorMessage>
+          </>
         )}
         <Controller
           name='description'
