@@ -8,7 +8,11 @@ export const concernSchema = z.object({
 
 export const patchConcernSchema = z.object({
   title: z.string().min(1, 'Title is required').max(255).optional(),
-  status: z.nativeEnum(Status).optional(),
+  status: z
+    .nativeEnum(Status, {
+      errorMap: () => ({ message: 'Invalid Status' }),
+    })
+    .optional(),
   description: z
     .string()
     .min(1, 'Description is required')
