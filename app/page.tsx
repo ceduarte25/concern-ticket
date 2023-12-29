@@ -25,6 +25,8 @@ export default async function Home() {
   )
 }
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'ConcernTicket - Navigate Your Worries',
   description:
