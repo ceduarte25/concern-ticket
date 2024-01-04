@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import ConcernsChart from './ConcernsChart'
 import ConcernsSummary from './ConcernsSummary'
 import LatestConcerns from './LatestConcerns'
+import SignInPrompt from './SignInPrompt'
 
 export default async function Home() {
   const open = await prisma.concern.count({ where: { status: 'OPEN' } })
@@ -15,13 +16,16 @@ export default async function Home() {
   const statusesCount = { open, closed, inProgress }
 
   return (
-    <Grid columns={{ initial: '1', md: '2' }} gap='5'>
-      <Flex direction='column' gap='5'>
-        <ConcernsSummary {...statusesCount} />
-        <ConcernsChart {...statusesCount} />
-      </Flex>
-      <LatestConcerns />
-    </Grid>
+    <Flex direction='column' gap='4'>
+      <SignInPrompt />
+      <Grid columns={{ initial: '1', md: '2' }} gap='5'>
+        <Flex direction='column' gap='5'>
+          <ConcernsSummary {...statusesCount} />
+          <ConcernsChart {...statusesCount} />
+        </Flex>
+        <LatestConcerns />
+      </Grid>
+    </Flex>
   )
 }
 
@@ -36,3 +40,4 @@ export const metadata: Metadata = {
     icon: '/concernTicket.png',
   },
 }
+ 
